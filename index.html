@@ -1,397 +1,368 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
-</head>
-<body>
-<x-dc>
-<helmet>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Beehive — Contact QR code</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-<style>
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; background: #FFFFFF; }
-a { color: #E00800; }
-a:hover { color: #B30600; }
-input::placeholder { color: rgba(15,20,48,0.44); }
-</style>
-<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#FFFFFF"></rect><rect x="30" y="30" width="40" height="40" fill="#E00800" rx="8"></rect><text x="50" y="59" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="26" fill="#FFFFFF">b</text></svg></template>
-</helmet>
-<div style="min-height:100vh;background:#FFFFFF;color:#0F1430;font-family:'Suisse Intl','Inter Tight',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;-webkit-font-smoothing:antialiased">
-  <div style="max-width:980px;margin:0 auto;padding:40px 20px 64px">
-
-    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:28px">
-      <div style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#E00800">
-        <span style="width:5px;height:5px;border-radius:50%;background:#E00800"></span>Beehive sales tools
-      </div>
-      <h1 style="font-size:32px;font-weight:700;letter-spacing:-0.025em;line-height:1.1;margin:0;text-wrap:balance">Contact QR code</h1>
-      <p style="color:rgba(15,20,48,0.64);font-size:16px;line-height:1.5;margin:0;max-width:560px;text-wrap:pretty">Enter your details and download the PNG for your business card. Then add it to the team Drive folder.</p>
-    </div>
-
-    <div style="display:inline-flex;gap:4px;padding:4px;border:1px solid rgba(15,20,48,0.12);border-radius:999px;margin-bottom:24px">
-      <button type="button" onClick="{{ toSingle }}" style="border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;padding:10px 18px;border-radius:999px;background:{{ tabSingleBg }};color:{{ tabSingleFg }}">One rep</button>
-      <button type="button" onClick="{{ toBulk }}" style="border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;padding:10px 18px;border-radius:999px;background:{{ tabBulkBg }};color:{{ tabBulkFg }}">Bulk from CSV</button>
-    </div>
-
-    <sc-if value="{{ isSingle }}" hint-placeholder-val="{{ true }}">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:24px;align-items:start">
-
-        <div style="border:1px solid rgba(15,20,48,0.12);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:16px">
-          <div style="font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(15,20,48,0.44)">Your details</div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:14px">
-            <label style="display:flex;flex-direction:column;gap:6px">
-              <span style="font-size:13px;color:rgba(15,20,48,0.64);font-weight:500">First name<span style="color:#E00800;margin-left:2px">*</span></span>
-              <input value="{{ f.first }}" onChange="{{ onFirst }}" placeholder="Sara" autocomplete="given-name" style="background:#FFFFFF;border:1px solid rgba(15,20,48,0.12);border-radius:14px;padding:14px 16px;color:#0F1430;font-family:inherit;font-size:16px;font-weight:500;width:100%;outline:none" style-focus="border-color:#E00800">
-              <sc-if value="{{ err.first }}" hint-placeholder-val="{{ false }}"><span style="color:#E00800;font-size:12px">{{ err.first }}</span></sc-if>
-            </label>
-            <label style="display:flex;flex-direction:column;gap:6px">
-              <span style="font-size:13px;color:rgba(15,20,48,0.64);font-weight:500">Last name<span style="color:#E00800;margin-left:2px">*</span></span>
-              <input value="{{ f.last }}" onChange="{{ onLast }}" placeholder="Al Mansoori" autocomplete="family-name" style="background:#FFFFFF;border:1px solid rgba(15,20,48,0.12);border-radius:14px;padding:14px 16px;color:#0F1430;font-family:inherit;font-size:16px;font-weight:500;width:100%;outline:none" style-focus="border-color:#E00800">
-              <sc-if value="{{ err.last }}" hint-placeholder-val="{{ false }}"><span style="color:#E00800;font-size:12px">{{ err.last }}</span></sc-if>
-            </label>
-          </div>
-          <label style="display:flex;flex-direction:column;gap:6px">
-            <span style="font-size:13px;color:rgba(15,20,48,0.64);font-weight:500">Job title</span>
-            <input value="{{ f.title }}" onChange="{{ onTitle }}" placeholder="Relationship Manager" autocomplete="organization-title" style="background:#FFFFFF;border:1px solid rgba(15,20,48,0.12);border-radius:14px;padding:14px 16px;color:#0F1430;font-family:inherit;font-size:16px;font-weight:500;width:100%;outline:none" style-focus="border-color:#E00800">
-          </label>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:14px">
-            <label style="display:flex;flex-direction:column;gap:6px">
-              <span style="font-size:13px;color:rgba(15,20,48,0.64);font-weight:500">Mobile<span style="color:#E00800;margin-left:2px">*</span></span>
-              <input type="tel" inputmode="tel" value="{{ f.mobile }}" onChange="{{ onMobile }}" placeholder="+971 50 123 4567" autocomplete="tel" style="background:#FFFFFF;border:1px solid rgba(15,20,48,0.12);border-radius:14px;padding:14px 16px;color:#0F1430;font-family:inherit;font-size:16px;font-weight:500;width:100%;outline:none" style-focus="border-color:#E00800">
-              <sc-if value="{{ err.mobile }}" hint-placeholder-val="{{ false }}"><span style="color:#E00800;font-size:12px">{{ err.mobile }}</span></sc-if>
-            </label>
-            <label style="display:flex;flex-direction:column;gap:6px">
-              <span style="font-size:13px;color:rgba(15,20,48,0.64);font-weight:500">Office phone</span>
-              <input type="tel" inputmode="tel" value="{{ f.office }}" onChange="{{ onOffice }}" placeholder="+971 4 123 4567" style="background:#FFFFFF;border:1px solid rgba(15,20,48,0.12);border-radius:14px;padding:14px 16px;color:#0F1430;font-family:inherit;font-size:16px;font-weight:500;width:100%;outline:none" style-focus="border-color:#E00800">
-            </label>
-          </div>
-          <label style="display:flex;flex-direction:column;gap:6px">
-            <span style="font-size:13px;color:rgba(15,20,48,0.64);font-weight:500">Work email<span style="color:#E00800;margin-left:2px">*</span></span>
-            <input type="email" inputmode="email" value="{{ f.email }}" onChange="{{ onEmail }}" placeholder="sara@beehive.ae" autocomplete="email" style="background:#FFFFFF;border:1px solid rgba(15,20,48,0.12);border-radius:14px;padding:14px 16px;color:#0F1430;font-family:inherit;font-size:16px;font-weight:500;width:100%;outline:none" style-focus="border-color:#E00800">
-            <sc-if value="{{ err.email }}" hint-placeholder-val="{{ false }}"><span style="color:#E00800;font-size:12px">{{ err.email }}</span></sc-if>
-          </label>
-          <div style="padding:12px 16px;background:#F7F6F2;border:1px solid rgba(15,20,48,0.12);border-radius:14px;font-size:13px;line-height:1.5;color:rgba(15,20,48,0.64)">
-            Added for everyone: <strong style="color:#0F1430;font-weight:600">Beehive Fintech</strong>, beehive.ae, Gate Avenue, South Zone, DIFC, PO Box 506943, Dubai
-          </div>
-        </div>
-
-        <div style="border:1px solid rgba(15,20,48,0.12);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:18px">
-          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
-            <span style="font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(15,20,48,0.44)">Preview</span>
-            <span style="font-size:13px;color:rgba(15,20,48,0.64);font-variant-numeric:tabular-nums">{{ sizeLabel }}</span>
-          </div>
-          <div style="background:#F7F6F2;border-radius:14px;padding:24px;display:grid;place-items:center">
-            <canvas ref="{{ canvasRef }}" width="640" height="640" style="width:100%;max-width:300px;aspect-ratio:1;display:block;border-radius:6px;background:#FFFFFF"></canvas>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:4px">
-            <span style="font-size:13px;color:rgba(15,20,48,0.64)">File name</span>
-            <span style="font-size:15px;font-weight:600;word-break:break-all">{{ fileName }}</span>
-          </div>
-          <button type="button" onClick="{{ downloadOne }}" style="font-family:inherit;font-size:16px;font-weight:600;border-radius:999px;padding:16px 24px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:#E00800;color:#FFFFFF;transition:transform 180ms cubic-bezier(0.22,1,0.36,1),box-shadow 180ms" style-hover="transform:translateY(-1px);box-shadow:0 10px 26px rgba(224,8,0,0.28)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>
-            Download PNG
-          </button>
-          <sc-if value="{{ downloaded }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:14px;color:rgba(15,20,48,0.64)">
-              <span style="width:6px;height:6px;border-radius:50%;background:#47CB6C;flex-shrink:0"></span>
-              <span>Downloaded. Now add it to the team Drive folder.</span>
-              <sc-if value="{{ driveUrl }}" hint-placeholder-val="{{ false }}"><a href="{{ driveUrl }}" target="_blank" rel="noopener" style="font-weight:600">Open folder</a></sc-if>
-            </div>
-          </sc-if>
-        </div>
-      </div>
-    </sc-if>
-
-    <sc-if value="{{ isBulk }}" hint-placeholder-val="{{ false }}">
-      <div style="display:flex;flex-direction:column;gap:20px">
-        <div onDragOver="{{ onDragOver }}" onDrop="{{ onDrop }}" style="border:1.5px dashed rgba(15,20,48,0.22);border-radius:22px;padding:32px 22px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
-          <div style="font-size:18px;font-weight:600;letter-spacing:-0.01em">Drop a CSV here</div>
-          <div style="font-size:14px;color:rgba(15,20,48,0.64);max-width:440px;line-height:1.5">One row per rep. Columns: first_name, last_name, job_title, mobile, office_phone, email.</div>
-          <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
-            <button type="button" onClick="{{ pickFile }}" style="background:#0F1430;color:#FFFFFF;border:none;border-radius:999px;padding:14px 22px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer">Choose CSV</button>
-            <button type="button" onClick="{{ downloadTemplate }}" style="background:#FFFFFF;color:#0F1430;border:1px solid rgba(15,20,48,0.12);border-radius:999px;padding:14px 22px;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer" style-hover="background:#F7F6F2;border-color:rgba(15,20,48,0.22)">Download template</button>
-          </div>
-          <input ref="{{ fileRef }}" type="file" accept=".csv,text/csv" onChange="{{ onFile }}" style="display:none">
-          <sc-if value="{{ csvError }}" hint-placeholder-val="{{ false }}"><div style="color:#E00800;font-size:13px">{{ csvError }}</div></sc-if>
-        </div>
-
-        <sc-if value="{{ hasRows }}" hint-placeholder-val="{{ false }}">
-          <div style="border:1px solid rgba(15,20,48,0.12);border-radius:22px;overflow:hidden">
-            <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid rgba(15,20,48,0.12)">
-              <div style="display:flex;flex-direction:column;gap:2px">
-                <span style="font-size:15px;font-weight:600">{{ csvName }}</span>
-                <span style="font-size:13px;color:rgba(15,20,48,0.64)">{{ rowSummary }}</span>
-              </div>
-              <button type="button" onClick="{{ downloadAll }}" style="font-family:inherit;font-size:15px;font-weight:600;border-radius:999px;padding:14px 22px;border:none;cursor:pointer;display:flex;align-items:center;gap:10px;background:#E00800;color:#FFFFFF">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" width="17" height="17"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>
-                {{ zipLabel }}
-              </button>
-            </div>
-            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="3">
-              <div style="display:flex;align-items:center;gap:16px;padding:14px 22px;border-bottom:1px solid rgba(15,20,48,0.08)">
-                <div style="width:56px;height:56px;flex-shrink:0;background:#F7F6F2;border-radius:10px;display:grid;place-items:center;overflow:hidden">
-                  <sc-if value="{{ r.thumb }}" hint-placeholder-val="{{ false }}"><img src="{{ r.thumb }}" alt="" style="width:48px;height:48px;display:block"></sc-if>
-                </div>
-                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
-                  <span style="font-size:15px;font-weight:600">{{ r.name }}</span>
-                  <sc-if value="{{ r.ok }}" hint-placeholder-val="{{ true }}"><span style="font-size:13px;color:rgba(15,20,48,0.64);word-break:break-all">{{ r.file }}</span></sc-if>
-                  <sc-if value="{{ r.issue }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:#E00800">{{ r.issue }}</span></sc-if>
-                </div>
-                <sc-if value="{{ r.ok }}" hint-placeholder-val="{{ true }}">
-                  <button type="button" onClick="{{ r.download }}" aria-label="Download" style="background:#FFFFFF;border:1px solid rgba(15,20,48,0.12);border-radius:999px;width:44px;height:44px;display:grid;place-items:center;cursor:pointer;color:#0F1430;flex-shrink:0" style-hover="background:#F7F6F2">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" width="17" height="17"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>
-                  </button>
-                </sc-if>
-              </div>
-            </sc-for>
-          </div>
-        </sc-if>
-      </div>
-    </sc-if>
-
-  </div>
-</div>
-</x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;driveUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Setup&quot;},&quot;exportSize&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;1024&quot;,&quot;2048&quot;,&quot;4096&quot;],&quot;default&quot;:&quot;2048&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;QR style&quot;},&quot;transparentBg&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;QR style&quot;},&quot;qrColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#000000&quot;,&quot;#0F1430&quot;,&quot;#E00800&quot;],&quot;default&quot;:&quot;#000000&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;QR style&quot;}}">
-class Component extends DCLogic {
-  COMPANY = {
+<!--
+  CONFIG — edit these before hosting.
+-->
+<script>
+window.BEEHIVE_QR_CONFIG = {
+  driveUrl: '',            // OneDrive folder link; shows "Open folder" after download
+  qrColor: '#000000',      // QR colour
+  transparentBg: false,    // true = transparent PNG background
+  exportSize: 2048,        // PNG width/height in px
+  company: {
     org: 'Beehive Fintech',
     url: 'https://beehive.ae',
     poBox: 'PO Box 506943',
     street: 'Gate Avenue, South Zone, DIFC',
     city: 'Dubai',
-    country: 'United Arab Emirates',
-  };
-  BLANK = { first: '', last: '', title: '', mobile: '', office: '', email: '' };
-  state = { mode: 'single', f: { ...this.BLANK }, tried: false, downloaded: false, rows: [], csvName: '', csvError: '', zipping: false, ready: false };
-  canvasRef = React.createRef();
-  fileRef = React.createRef();
+    country: 'United Arab Emirates'
+  }
+};
+</script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { color: #0F1430; font-family: 'Suisse Intl', 'Inter Tight', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #E00800; } a:hover { color: #B30600; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 40px 20px 64px; }
+  .eyebrow { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: #E00800; margin-bottom: 10px; }
+  .eyebrow i { width: 5px; height: 5px; border-radius: 50%; background: #E00800; }
+  h1 { font-size: 32px; font-weight: 700; letter-spacing: -.025em; line-height: 1.1; margin: 0 0 8px; }
+  .sub { color: rgba(15,20,48,.64); font-size: 16px; line-height: 1.5; margin: 0 0 28px; max-width: 560px; }
+  .tabs { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid rgba(15,20,48,.12); border-radius: 999px; margin-bottom: 24px; }
+  .tab { border: none; cursor: pointer; font-size: 14px; font-weight: 600; line-height: 1; font-family: inherit; padding: 12px 18px; border-radius: 999px; background: transparent; color: rgba(15,20,48,.64); }
+  .tab.on { background: #0F1430; color: #fff; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 24px; align-items: start; }
+  .card { border: 1px solid rgba(15,20,48,.12); border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 16px; }
+  .label { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: rgba(15,20,48,.44); }
+  .row2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); gap: 14px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field span { font-size: 13px; color: rgba(15,20,48,.64); font-weight: 500; }
+  .field b { color: #E00800; margin-left: 2px; font-weight: 500; }
+  .field input { background: #fff; border: 1px solid rgba(15,20,48,.12); border-radius: 14px; padding: 14px 16px; color: #0F1430; font-size: 16px; font-weight: 500; font-family: inherit; width: 100%; outline: none; transition: border-color 160ms; }
+  .field input:focus { border-color: #E00800; }
+  .field input.bad { border-color: #E00800; }
+  .field input::placeholder { color: rgba(15,20,48,.44); }
+  .err { color: #E00800; font-size: 12px; min-height: 0; }
+  .err:empty { display: none; }
+  .note { padding: 12px 16px; background: #F7F6F2; border: 1px solid rgba(15,20,48,.12); border-radius: 14px; font-size: 13px; line-height: 1.5; color: rgba(15,20,48,.64); }
+  .note strong { color: #0F1430; font-weight: 600; }
+  .head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .muted { font-size: 13px; color: rgba(15,20,48,.64); font-variant-numeric: tabular-nums; }
+  .stage { background: #F7F6F2; border-radius: 14px; padding: 24px; display: grid; place-items: center; }
+  .stage canvas { width: 100%; max-width: 300px; aspect-ratio: 1; display: block; border-radius: 6px; background: #fff; }
+  .fname { font-size: 15px; font-weight: 600; word-break: break-all; }
+  .btn { font-family: inherit; font-size: 16px; font-weight: 600; border-radius: 999px; padding: 16px 24px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; background: #E00800; color: #fff; transition: transform 180ms cubic-bezier(.22,1,.36,1), box-shadow 180ms; }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 26px rgba(224,8,0,.28); }
+  .btn.full { width: 100%; }
+  .btn.dark { background: #0F1430; font-size: 15px; padding: 14px 22px; }
+  .btn.dark:hover { box-shadow: none; }
+  .ghost { background: #fff; color: #0F1430; border: 1px solid rgba(15,20,48,.12); border-radius: 999px; padding: 14px 22px; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; }
+  .ghost:hover { background: #F7F6F2; border-color: rgba(15,20,48,.22); }
+  .done { display: none; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; color: rgba(15,20,48,.64); }
+  .done.show { display: flex; }
+  .done i { width: 6px; height: 6px; border-radius: 50%; background: #47CB6C; }
+  .done a { font-weight: 600; }
+  .drop { border: 1.5px dashed rgba(15,20,48,.22); border-radius: 22px; padding: 32px 22px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; transition: background 160ms; }
+  .drop.over { background: #F7F6F2; }
+  .drop h3 { font-size: 18px; font-weight: 600; margin: 0; }
+  .drop p { font-size: 14px; color: rgba(15,20,48,.64); max-width: 440px; line-height: 1.5; margin: 0; }
+  .btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .list { border: 1px solid rgba(15,20,48,.12); border-radius: 22px; overflow: hidden; margin-top: 20px; }
+  .list-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 22px; border-bottom: 1px solid rgba(15,20,48,.12); }
+  .item { display: flex; align-items: center; gap: 16px; padding: 14px 22px; border-bottom: 1px solid rgba(15,20,48,.08); }
+  .item:last-child { border-bottom: none; }
+  .thumb { width: 56px; height: 56px; flex-shrink: 0; background: #F7F6F2; border-radius: 10px; display: grid; place-items: center; }
+  .thumb img { width: 48px; height: 48px; display: block; }
+  .item-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .item-body strong { font-size: 15px; font-weight: 600; }
+  .item-body .bad { font-size: 13px; color: #E00800; }
+  .icon-btn { background: #fff; border: 1px solid rgba(15,20,48,.12); border-radius: 999px; width: 44px; height: 44px; display: grid; place-items: center; cursor: pointer; color: #0F1430; flex-shrink: 0; }
+  .icon-btn:hover { background: #F7F6F2; }
+  [hidden] { display: none !important; }
+  @media (max-width: 480px) { h1 { font-size: 26px; } .wrap { padding: 28px 16px 48px; } }
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <div class="eyebrow"><i></i>Beehive sales tools</div>
+  <h1>Contact QR code</h1>
+  <p class="sub">Enter your details and download the PNG for your business card. Then add it to the team Drive folder.</p>
 
-  componentDidMount() { this.waitLib(); this.reportHeight(); }
-  reportHeight() {
-    if (window.parent === window) return;
-    let last = 0;
-    const send = () => {
-      const h = Math.ceil(document.documentElement.scrollHeight);
-      if (h > 0 && Math.abs(h - last) > 1) { last = h; window.parent.postMessage({ beehiveQrHeight: h }, '*'); }
-    };
-    if (window.ResizeObserver) new ResizeObserver(send).observe(document.body);
-    window.addEventListener('load', send);
-    window.addEventListener('resize', send);
-    send();
-  }
-  componentDidUpdate() { this.drawPreview(); }
-  waitLib() {
-    if (window.qrcode) {
-      window.qrcode.stringToBytes = window.qrcode.stringToBytesFuncs['UTF-8'];
-      this.setState({ ready: true });
-    } else setTimeout(() => this.waitLib(), 100);
-  }
-  cfg() {
-    return {
-      color: this.props.qrColor ?? '#000000',
-      transparent: this.props.transparentBg ?? false,
-      size: Number(this.props.exportSize ?? 2048),
-    };
-  }
+  <div class="tabs">
+    <button type="button" class="tab on" data-tab="single">One rep</button>
+    <button type="button" class="tab" data-tab="bulk">Bulk from CSV</button>
+  </div>
 
-  esc(v) { return String(v || '').trim().replace(/\\/g, '\\\\').replace(/([,;])/g, '\\$1'); }
-  phone(v) {
-    let s = String(v || '').replace(/[^\d+]/g, '');
+  <section id="single">
+    <div class="grid">
+      <div class="card">
+        <div class="label">Your details</div>
+        <div class="row2">
+          <label class="field"><span>First name<b>*</b></span><input id="first" placeholder="Sara" autocomplete="given-name"><div class="err" data-err="first"></div></label>
+          <label class="field"><span>Last name<b>*</b></span><input id="last" placeholder="Al Mansoori" autocomplete="family-name"><div class="err" data-err="last"></div></label>
+        </div>
+        <label class="field"><span>Job title</span><input id="title" placeholder="Relationship Manager" autocomplete="organization-title"></label>
+        <div class="row2">
+          <label class="field"><span>Mobile<b>*</b></span><input id="mobile" type="tel" inputmode="tel" placeholder="+971 50 123 4567" autocomplete="tel"><div class="err" data-err="mobile"></div></label>
+          <label class="field"><span>Office phone</span><input id="office" type="tel" inputmode="tel" placeholder="+971 4 123 4567"></label>
+        </div>
+        <label class="field"><span>Work email<b>*</b></span><input id="email" type="email" inputmode="email" placeholder="sara@beehive.ae" autocomplete="email"><div class="err" data-err="email"></div></label>
+        <div class="note" id="companyNote"></div>
+      </div>
+
+      <div class="card">
+        <div class="head"><span class="label">Preview</span><span class="muted" id="sizeLabel"></span></div>
+        <div class="stage"><canvas id="preview" width="640" height="640"></canvas></div>
+        <div class="field"><span>File name</span><div class="fname" id="fileName">firstname-lastname.png</div></div>
+        <button type="button" class="btn full" id="downloadOne">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+          Download PNG
+        </button>
+        <div class="done" id="done"><i></i><span>Downloaded. Now add it to the team Drive folder.</span><a id="driveLink" target="_blank" rel="noopener" hidden>Open folder</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="bulk" hidden>
+    <div class="drop" id="drop">
+      <h3>Drop a CSV here</h3>
+      <p>One row per rep. Columns: first_name, last_name, job_title, mobile, office_phone, email.</p>
+      <div class="btns">
+        <button type="button" class="btn dark" id="pick">Choose CSV</button>
+        <button type="button" class="ghost" id="template">Download template</button>
+      </div>
+      <input type="file" id="file" accept=".csv,text/csv" hidden>
+      <div class="err" id="csvError"></div>
+    </div>
+    <div class="list" id="list" hidden>
+      <div class="list-head">
+        <div class="item-body"><strong id="csvName"></strong><span class="muted" id="rowSummary"></span></div>
+        <button type="button" class="btn" id="downloadAll" style="font-size:15px;padding:14px 22px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" width="17" height="17"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+          <span id="zipLabel">Download all</span>
+        </button>
+      </div>
+      <div id="rows"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+  var CFG = window.BEEHIVE_QR_CONFIG, C = CFG.company;
+  var $ = function (id) { return document.getElementById(id); };
+  var FIELDS = ['first', 'last', 'title', 'mobile', 'office', 'email'];
+  var tried = false, rows = [];
+
+  $('companyNote').innerHTML = 'Added for everyone: <strong>' + C.org + '</strong>, ' + C.url.replace(/^https?:\/\//, '') + ', ' + C.street.replace('DIFC', '') .replace(/,\s*$/, '') + ', DIFC, ' + C.poBox + ', ' + C.city;
+  $('sizeLabel').textContent = 'PNG · ' + CFG.exportSize + ' × ' + CFG.exportSize + 'px';
+  if (CFG.driveUrl) { $('driveLink').href = CFG.driveUrl; $('driveLink').hidden = false; }
+
+  function esc(v) { return String(v || '').trim().replace(/\\/g, '\\\\').replace(/([,;])/g, '\\$1'); }
+  function phone(v) {
+    var s = String(v || '').replace(/[^\d+]/g, '');
     if (!s) return '';
-    if (s.startsWith('00')) s = '+' + s.slice(2);
-    else if (s.startsWith('0')) s = '+971' + s.slice(1);
-    else if (!s.startsWith('+') && s.length <= 9) s = '+971' + s;
-    else if (!s.startsWith('+')) s = '+' + s;
+    if (s.indexOf('00') === 0) s = '+' + s.slice(2);
+    else if (s.charAt(0) === '0') s = '+971' + s.slice(1);
+    else if (s.charAt(0) !== '+' && s.length <= 9) s = '+971' + s;
+    else if (s.charAt(0) !== '+') s = '+' + s;
     return s;
   }
-  vcard(f) {
-    const C = this.COMPANY, e = (x) => this.esc(x);
-    const L = ['BEGIN:VCARD', 'VERSION:3.0', `N:${e(f.last)};${e(f.first)};;;`, `FN:${e(`${f.first} ${f.last}`)}`, `ORG:${e(C.org)}`];
-    if (f.title && f.title.trim()) L.push(`TITLE:${e(f.title)}`);
-    if (f.mobile) L.push(`TEL;TYPE=CELL:${this.phone(f.mobile)}`);
-    if (f.office) L.push(`TEL;TYPE=WORK:${this.phone(f.office)}`);
-    if (f.email) L.push(`EMAIL;TYPE=WORK:${String(f.email).trim()}`);
-    L.push(`URL:${C.url}`);
-    L.push(`ADR;TYPE=WORK:${e(C.poBox)};;${e(C.street)};${e(C.city)};;;${e(C.country)}`);
+  function vcard(f) {
+    var L = ['BEGIN:VCARD', 'VERSION:3.0', 'N:' + esc(f.last) + ';' + esc(f.first) + ';;;', 'FN:' + esc(f.first + ' ' + f.last), 'ORG:' + esc(C.org)];
+    if (f.title && f.title.trim()) L.push('TITLE:' + esc(f.title));
+    if (f.mobile) L.push('TEL;TYPE=CELL:' + phone(f.mobile));
+    if (f.office) L.push('TEL;TYPE=WORK:' + phone(f.office));
+    if (f.email) L.push('EMAIL;TYPE=WORK:' + String(f.email).trim());
+    L.push('URL:' + C.url);
+    L.push('ADR;TYPE=WORK:' + esc(C.poBox) + ';;' + esc(C.street) + ';' + esc(C.city) + ';;;' + esc(C.country));
     L.push('END:VCARD');
     return L.join('\r\n');
   }
-  validate(f) {
-    const err = {};
-    if (!f.first || !f.first.trim()) err.first = 'Enter your first name';
-    if (!f.last || !f.last.trim()) err.last = 'Enter your last name';
-    if (String(f.mobile || '').replace(/\D/g, '').length < 7) err.mobile = 'Enter a valid mobile number';
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(f.email || '').trim())) err.email = 'Enter a valid email';
-    return err;
+  function validate(f) {
+    var e = {};
+    if (!f.first || !f.first.trim()) e.first = 'Enter your first name';
+    if (!f.last || !f.last.trim()) e.last = 'Enter your last name';
+    if (String(f.mobile || '').replace(/\D/g, '').length < 7) e.mobile = 'Enter a valid mobile number';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(f.email || '').trim())) e.email = 'Enter a valid email';
+    return e;
   }
-  slug(s) { return String(s || '').trim().toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
-  fileNameFor(f) {
-    const n = [this.slug(f.first), this.slug(f.last)].filter(Boolean).join('-');
-    return (n || 'firstname-lastname') + '.png';
-  }
+  function slug(s) { return String(s || '').trim().toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
+  function fileNameFor(f) { var n = [slug(f.first), slug(f.last)].filter(Boolean).join('-'); return (n || 'firstname-lastname') + '.png'; }
 
-  rr(ctx, x, y, w, h, r) {
+  function rr(ctx, x, y, w, h, r) {
     ctx.moveTo(x + r, y);
-    ctx.arcTo(x + w, y, x + w, y + h, r);
-    ctx.arcTo(x + w, y + h, x, y + h, r);
-    ctx.arcTo(x, y + h, x, y, r);
-    ctx.arcTo(x, y, x + w, y, r);
-    ctx.closePath();
+    ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
   }
-  draw(canvas, text, px) {
-    if (!window.qrcode) return;
-    const qr = window.qrcode(0, 'M');
-    qr.addData(text); qr.make();
-    const n = qr.getModuleCount(), quiet = 4, cell = px / (n + quiet * 2);
-    const { color, transparent } = this.cfg();
+  function draw(canvas, text, px) {
+    var qr = qrcode(0, 'M'); qr.addData(text); qr.make();
+    var n = qr.getModuleCount(), quiet = 4, cell = px / (n + quiet * 2);
     canvas.width = px; canvas.height = px;
-    const ctx = canvas.getContext('2d');
+    var ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, px, px);
-    if (!transparent) { ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, px, px); }
-    ctx.fillStyle = color;
-    const inEye = (r, c) => (r < 7 && c < 7) || (r < 7 && c >= n - 7) || (r >= n - 7 && c < 7);
+    if (!CFG.transparentBg) { ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, px, px); }
+    ctx.fillStyle = CFG.qrColor;
+    function inEye(r, c) { return (r < 7 && c < 7) || (r < 7 && c >= n - 7) || (r >= n - 7 && c < 7); }
     ctx.beginPath();
-    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+    for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) {
       if (!qr.isDark(r, c) || inEye(r, c)) continue;
-      const cx = (c + quiet + 0.5) * cell, cy = (r + quiet + 0.5) * cell;
-      ctx.moveTo(cx + cell * 0.45, cy);
-      ctx.arc(cx, cy, cell * 0.45, 0, Math.PI * 2);
+      var cx = (c + quiet + .5) * cell, cy = (r + quiet + .5) * cell;
+      ctx.moveTo(cx + cell * .45, cy); ctx.arc(cx, cy, cell * .45, 0, Math.PI * 2);
     }
     ctx.fill();
-    [[0, 0], [0, n - 7], [n - 7, 0]].forEach(([r0, c0]) => {
-      const x = (c0 + quiet) * cell, y = (r0 + quiet) * cell;
-      ctx.beginPath();
-      this.rr(ctx, x, y, 7 * cell, 7 * cell, 2.4 * cell);
-      this.rr(ctx, x + cell, y + cell, 5 * cell, 5 * cell, 1.5 * cell);
-      ctx.fill('evenodd');
-      ctx.beginPath();
-      this.rr(ctx, x + 2 * cell, y + 2 * cell, 3 * cell, 3 * cell, 0.9 * cell);
-      ctx.fill();
+    [[0, 0], [0, n - 7], [n - 7, 0]].forEach(function (p) {
+      var x = (p[1] + quiet) * cell, y = (p[0] + quiet) * cell;
+      ctx.beginPath(); rr(ctx, x, y, 7 * cell, 7 * cell, 2.4 * cell); rr(ctx, x + cell, y + cell, 5 * cell, 5 * cell, 1.5 * cell); ctx.fill('evenodd');
+      ctx.beginPath(); rr(ctx, x + 2 * cell, y + 2 * cell, 3 * cell, 3 * cell, .9 * cell); ctx.fill();
     });
   }
-  drawPreview() {
-    const c = this.canvasRef.current;
-    if (c && this.state.ready) this.draw(c, this.vcard(this.state.f), 640);
+  function toBlob(f, px) {
+    var c = document.createElement('canvas'); draw(c, vcard(f), px);
+    return new Promise(function (res) { c.toBlob(res, 'image/png'); });
   }
-  toBlob(f, px) {
-    const c = document.createElement('canvas');
-    this.draw(c, this.vcard(f), px);
-    return new Promise((res) => c.toBlob(res, 'image/png'));
-  }
-  save(blob, name) {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = name;
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1500);
+  function save(blob, name) {
+    var url = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
   }
 
-  setField(k, v) { this.setState((s) => ({ f: { ...s.f, [k]: v }, downloaded: false })); }
-  async downloadOne() {
-    const f = this.state.f;
-    if (Object.keys(this.validate(f)).length) { this.setState({ tried: true }); return; }
-    this.save(await this.toBlob(f, this.cfg().size), this.fileNameFor(f));
-    this.setState({ tried: false, downloaded: true });
+  // Single
+  function readForm() { var f = {}; FIELDS.forEach(function (k) { f[k] = $(k).value; }); return f; }
+  function showErrors(f) {
+    var e = tried ? validate(f) : {};
+    document.querySelectorAll('[data-err]').forEach(function (el) {
+      var k = el.getAttribute('data-err'); el.textContent = e[k] || ''; $(k).classList.toggle('bad', !!e[k]);
+    });
   }
+  function refresh() {
+    var f = readForm();
+    $('fileName').textContent = fileNameFor(f);
+    $('done').classList.remove('show');
+    showErrors(f);
+    if (window.qrcode) draw($('preview'), vcard(f), 640);
+  }
+  FIELDS.forEach(function (k) { $(k).addEventListener('input', refresh); });
+  $('downloadOne').addEventListener('click', function () {
+    var f = readForm();
+    if (Object.keys(validate(f)).length) { tried = true; showErrors(f); return; }
+    toBlob(f, CFG.exportSize).then(function (b) {
+      save(b, fileNameFor(f)); tried = false; showErrors(f); $('done').classList.add('show');
+    });
+  });
 
-  parseCSV(t) {
-    const rows = []; let row = [], cur = '', q = false;
-    for (let i = 0; i < t.length; i++) {
-      const ch = t[i];
-      if (q) {
-        if (ch === '"') { if (t[i + 1] === '"') { cur += '"'; i++; } else q = false; }
-        else cur += ch;
-      } else if (ch === '"') q = true;
+  // Tabs
+  document.querySelectorAll('.tab').forEach(function (t) {
+    t.addEventListener('click', function () {
+      var m = t.getAttribute('data-tab');
+      document.querySelectorAll('.tab').forEach(function (x) { x.classList.toggle('on', x === t); });
+      $('single').hidden = m !== 'single'; $('bulk').hidden = m !== 'bulk';
+    });
+  });
+
+  // Bulk
+  function parseCSV(t) {
+    var out = [], row = [], cur = '', q = false;
+    for (var i = 0; i < t.length; i++) {
+      var ch = t[i];
+      if (q) { if (ch === '"') { if (t[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += ch; }
+      else if (ch === '"') q = true;
       else if (ch === ',') { row.push(cur); cur = ''; }
-      else if (ch === '\n' || ch === '\r') {
-        if (ch === '\r' && t[i + 1] === '\n') i++;
-        row.push(cur); rows.push(row); row = []; cur = '';
-      } else cur += ch;
+      else if (ch === '\n' || ch === '\r') { if (ch === '\r' && t[i + 1] === '\n') i++; row.push(cur); out.push(row); row = []; cur = ''; }
+      else cur += ch;
     }
-    if (cur || row.length) { row.push(cur); rows.push(row); }
-    return rows.filter((r) => r.some((c) => c.trim()));
+    if (cur || row.length) { row.push(cur); out.push(row); }
+    return out.filter(function (r) { return r.some(function (c) { return c.trim(); }); });
   }
-  loadCSV(file) {
+  var MAP = { firstname: 'first', first: 'first', lastname: 'last', last: 'last', surname: 'last', jobtitle: 'title', title: 'title', mobile: 'mobile', mobilephone: 'mobile', phone: 'mobile', officephone: 'office', office: 'office', email: 'email', workemail: 'email' };
+  var DL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" width="17" height="17"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>';
+  function h(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  function loadCSV(file) {
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      const data = this.parseCSV(String(reader.result).replace(/^\uFEFF/, ''));
-      if (data.length < 2) { this.setState({ csvError: 'That file has no rep rows.', rows: [] }); return; }
-      const MAP = { firstname: 'first', first: 'first', lastname: 'last', last: 'last', surname: 'last', jobtitle: 'title', title: 'title', mobile: 'mobile', mobilephone: 'mobile', phone: 'mobile', officephone: 'office', office: 'office', email: 'email', workemail: 'email' };
-      const keys = data[0].map((h) => MAP[h.toLowerCase().replace(/[^a-z]/g, '')]);
-      if (!keys.includes('first') || !keys.includes('last')) { this.setState({ csvError: 'Missing first_name or last_name column. Use the template.', rows: [] }); return; }
-      const used = {};
-      const rows = data.slice(1).map((cells) => {
-        const f = { ...this.BLANK };
-        keys.forEach((k, i) => { if (k) f[k] = (cells[i] || '').trim(); });
-        const err = this.validate(f);
-        let file = this.fileNameFor(f);
-        if (used[file]) { used[file]++; file = file.replace(/\.png$/, `-${used[file]}.png`); } else used[file] = 1;
-        const ok = !Object.keys(err).length;
-        let thumb = '';
-        if (ok) { const c = document.createElement('canvas'); this.draw(c, this.vcard(f), 144); thumb = c.toDataURL('image/png'); }
-        return { f, ok, file, thumb, name: `${f.first} ${f.last}`.trim() || 'Unnamed row', issue: ok ? '' : Object.values(err).join(' · ') };
+    var reader = new FileReader();
+    reader.onload = function () {
+      var data = parseCSV(String(reader.result).replace(/^\uFEFF/, ''));
+      $('csvError').textContent = '';
+      if (data.length < 2) { $('csvError').textContent = 'That file has no rep rows.'; $('list').hidden = true; return; }
+      var keys = data[0].map(function (x) { return MAP[x.toLowerCase().replace(/[^a-z]/g, '')]; });
+      if (keys.indexOf('first') < 0 || keys.indexOf('last') < 0) { $('csvError').textContent = 'Missing first_name or last_name column. Use the template.'; $('list').hidden = true; return; }
+      var used = {};
+      rows = data.slice(1).map(function (cells) {
+        var f = { first: '', last: '', title: '', mobile: '', office: '', email: '' };
+        keys.forEach(function (k, i) { if (k) f[k] = (cells[i] || '').trim(); });
+        var e = validate(f), ok = !Object.keys(e).length, file = fileNameFor(f);
+        if (used[file]) { used[file]++; file = file.replace(/\.png$/, '-' + used[file] + '.png'); } else used[file] = 1;
+        var thumb = '';
+        if (ok) { var c = document.createElement('canvas'); draw(c, vcard(f), 144); thumb = c.toDataURL('image/png'); }
+        return { f: f, ok: ok, file: file, thumb: thumb, name: (f.first + ' ' + f.last).trim() || 'Unnamed row', issue: Object.keys(e).map(function (k) { return e[k]; }).join(' · ') };
       });
-      this.setState({ rows, csvName: file.name, csvError: '' });
+      var okN = rows.filter(function (r) { return r.ok; }).length, bad = rows.length - okN;
+      $('csvName').textContent = file.name;
+      $('rowSummary').textContent = okN + ' ready' + (bad ? ' · ' + bad + ' need fixing in the CSV' : '');
+      $('zipLabel').textContent = 'Download all (' + okN + ')';
+      $('rows').innerHTML = rows.map(function (r, i) {
+        return '<div class="item"><div class="thumb">' + (r.thumb ? '<img alt="" src="' + r.thumb + '">' : '') + '</div>' +
+          '<div class="item-body"><strong>' + h(r.name) + '</strong>' + (r.ok ? '<span class="muted">' + h(r.file) + '</span>' : '<span class="bad">' + h(r.issue) + '</span>') + '</div>' +
+          (r.ok ? '<button type="button" class="icon-btn" aria-label="Download" data-i="' + i + '">' + DL_ICON + '</button>' : '') + '</div>';
+      }).join('');
+      $('list').hidden = false;
     };
     reader.readAsText(file);
   }
-  async downloadAll() {
-    const ok = this.state.rows.filter((r) => r.ok);
-    if (!ok.length || !window.JSZip || this.state.zipping) return;
-    this.setState({ zipping: true });
-    const zip = new window.JSZip();
-    for (const r of ok) zip.file(r.file, await this.toBlob(r.f, this.cfg().size));
-    this.save(await zip.generateAsync({ type: 'blob' }), 'beehive-qr-codes.zip');
-    this.setState({ zipping: false });
-  }
-  downloadTemplate() {
-    const csv = 'first_name,last_name,job_title,mobile,office_phone,email\nSara,Al Mansoori,Relationship Manager,+971 50 123 4567,+971 4 123 4567,sara@beehive.ae\n';
-    this.save(new Blob([csv], { type: 'text/csv' }), 'beehive-qr-template.csv');
-  }
+  $('rows').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-i]'); if (!b) return;
+    var r = rows[+b.getAttribute('data-i')];
+    toBlob(r.f, CFG.exportSize).then(function (blob) { save(blob, r.file); });
+  });
+  var zipping = false;
+  $('downloadAll').addEventListener('click', function () {
+    var ok = rows.filter(function (r) { return r.ok; });
+    if (!ok.length || zipping) return;
+    zipping = true; $('zipLabel').textContent = 'Preparing…';
+    var zip = new JSZip();
+    ok.reduce(function (p, r) { return p.then(function () { return toBlob(r.f, CFG.exportSize).then(function (b) { zip.file(r.file, b); }); }); }, Promise.resolve())
+      .then(function () { return zip.generateAsync({ type: 'blob' }); })
+      .then(function (b) { save(b, 'beehive-qr-codes.zip'); })
+      .finally(function () { zipping = false; $('zipLabel').textContent = 'Download all (' + ok.length + ')'; });
+  });
+  $('pick').addEventListener('click', function () { $('file').click(); });
+  $('file').addEventListener('change', function (e) { loadCSV(e.target.files[0]); e.target.value = ''; });
+  var drop = $('drop');
+  drop.addEventListener('dragover', function (e) { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', function () { drop.classList.remove('over'); });
+  drop.addEventListener('drop', function (e) { e.preventDefault(); drop.classList.remove('over'); loadCSV(e.dataTransfer.files[0]); });
+  $('template').addEventListener('click', function () {
+    save(new Blob(['first_name,last_name,job_title,mobile,office_phone,email\nSara,Al Mansoori,Relationship Manager,+971 50 123 4567,+971 4 123 4567,sara@beehive.ae\n'], { type: 'text/csv' }), 'beehive-qr-template.csv');
+  });
 
-  renderVals() {
-    const s = this.state, single = s.mode === 'single';
-    const err = s.tried ? this.validate(s.f) : {};
-    const okCount = s.rows.filter((r) => r.ok).length, bad = s.rows.length - okCount;
-    const size = this.cfg().size;
-    return {
-      f: s.f, err, canvasRef: this.canvasRef, fileRef: this.fileRef,
-      isSingle: single, isBulk: !single,
-      tabSingleBg: single ? '#0F1430' : 'transparent', tabSingleFg: single ? '#FFFFFF' : 'rgba(15,20,48,0.64)',
-      tabBulkBg: !single ? '#0F1430' : 'transparent', tabBulkFg: !single ? '#FFFFFF' : 'rgba(15,20,48,0.64)',
-      toSingle: () => this.setState({ mode: 'single' }),
-      toBulk: () => this.setState({ mode: 'bulk' }),
-      onFirst: (e) => this.setField('first', e.target.value),
-      onLast: (e) => this.setField('last', e.target.value),
-      onTitle: (e) => this.setField('title', e.target.value),
-      onMobile: (e) => this.setField('mobile', e.target.value),
-      onOffice: (e) => this.setField('office', e.target.value),
-      onEmail: (e) => this.setField('email', e.target.value),
-      fileName: this.fileNameFor(s.f),
-      sizeLabel: `PNG · ${size} × ${size}px`,
-      downloadOne: () => this.downloadOne(),
-      downloaded: s.downloaded,
-      driveUrl: this.props.driveUrl || '',
-      pickFile: () => this.fileRef.current && this.fileRef.current.click(),
-      onFile: (e) => { this.loadCSV(e.target.files[0]); e.target.value = ''; },
-      onDragOver: (e) => e.preventDefault(),
-      onDrop: (e) => { e.preventDefault(); this.loadCSV(e.dataTransfer.files[0]); },
-      downloadTemplate: () => this.downloadTemplate(),
-      csvError: s.csvError, csvName: s.csvName,
-      hasRows: s.rows.length > 0,
-      rowSummary: `${okCount} ready${bad ? ` · ${bad} need fixing in the CSV` : ''}`,
-      zipLabel: s.zipping ? 'Preparing…' : `Download all (${okCount})`,
-      downloadAll: () => this.downloadAll(),
-      rows: s.rows.map((r) => ({ ...r, download: async () => this.save(await this.toBlob(r.f, size), r.file) })),
+  // Init once the QR library is ready
+  (function wait() {
+    if (window.qrcode) { qrcode.stringToBytes = qrcode.stringToBytesFuncs['UTF-8']; refresh(); }
+    else setTimeout(wait, 80);
+  })();
+
+  // Report height to Webflow parent
+  if (window.parent !== window) {
+    var last = 0;
+    var send = function () {
+      var hgt = Math.ceil(document.getElementById('app').getBoundingClientRect().height);
+      if (hgt > 0 && Math.abs(hgt - last) > 1) { last = hgt; window.parent.postMessage({ beehiveQrHeight: hgt }, '*'); }
     };
+    if (window.ResizeObserver) new ResizeObserver(send).observe(document.getElementById('app'));
+    window.addEventListener('load', send);
+    send();
   }
-}
+})();
 </script>
 </body>
 </html>
